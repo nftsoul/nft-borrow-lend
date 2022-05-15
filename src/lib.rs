@@ -12,7 +12,6 @@ use solana_program::{
     pubkey::Pubkey,
     program_error::PrintProgramError,
 };
-pub const SPLTOKENPREFIX: &str = "spl_token";
 pub const NFTPREFIX: &str = "nft";
 
 entrypoint!(process_instruction);

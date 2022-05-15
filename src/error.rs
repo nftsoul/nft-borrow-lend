@@ -14,20 +14,13 @@ pub enum TokenError {
     // invalid instruction
     #[error("Invalid instruction")]
     InvalidInstruction,
-     // auction ended 
-     #[error("auction ended")]
-     AuctionEnded,
      // Overflow
-     #[error("Token overflow")]
+    #[error("Token overflow")]
      Overflow,
-     #[error("Not started")]
+    #[error("Not started")]
     Notstarted,
     #[error("Token Finished")]
     TokenFinished,
-    #[error("Buy Period Ended")]
-    AuctionStarted,
-    #[error("Price is Lower")]
-    PriceLower,
 }
 impl From<TokenError> for ProgramError {
     fn from(e: TokenError) -> Self {

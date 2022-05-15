@@ -38,7 +38,7 @@ impl TokenInstruction {
                 Self::ProcessDeposit
             }
             1 => {
-                let (amount, rest) = rest.split_at(8);
+                let (amount, _rest) = rest.split_at(8);
                 let amount = amount.try_into().map(u64::from_le_bytes).or(Err(InvalidInstruction))?;
                 Self::ProcessOffer(ProcessOffer{amount})
             }
@@ -50,7 +50,7 @@ impl TokenInstruction {
                 Self::ProcessCancel
             }
             4 => {
-                let (amount, rest) = rest.split_at(8);
+                let (amount, _rest) = rest.split_at(8);
                 let amount = amount.try_into().map(u64::from_le_bytes).or(Err(InvalidInstruction))?;
                 Self::ProcessInterest(ProcessInterest{amount})
             }
