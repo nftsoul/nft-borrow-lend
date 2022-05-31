@@ -13,6 +13,7 @@ use solana_program::{
     program_error::PrintProgramError,
 };
 pub const NFTPREFIX: &str = "nft";
+pub const WHITELIST: &str = "whitelist";
 
 entrypoint!(process_instruction);
 fn process_instruction(

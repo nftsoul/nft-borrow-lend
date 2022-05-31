@@ -16,6 +16,12 @@ pub struct ProcessOffer{
 pub struct ProcessInterest{
     pub amount: u64,
 }
+pub struct ProcessWhitelist{
+    pub number: u64,
+}
+pub struct ProcessUpdate{
+    pub interest: u64,
+}
 
 pub enum TokenInstruction {
     ProcessDeposit, ///0
@@ -24,7 +30,9 @@ pub enum TokenInstruction {
     ProcessCancel,///3
     ProcessInterest(ProcessInterest),///4
     ProcessLender,
-    ProcessWhitelist,
+    ProcessWhitelist(ProcessWhitelist),
+    ProcessRemoveWhitelist,
+    ProcessUpdate(ProcessUpdate),
 }
 impl TokenInstruction {
     /// Unpacks a byte buffer into a [TokenInstruction](enum.TokenInstruction.html).
@@ -58,7 +66,17 @@ impl TokenInstruction {
                 Self::ProcessLender
             }
             6 =>{
-                Self::ProcessWhitelist
+                let (number, _rest) = rest.split_at(8);
+                let number = number.try_into().map(u64::from_le_bytes).or(Err(InvalidInstruction))?;
+                Self::ProcessWhitelist(ProcessWhitelist{number})
+            }
+            7 => {
+                Self::ProcessRemoveWhitelist
+            }
+            8 =>{
+                let (interest, _rest) = rest.split_at(8);
+                let interest = interest.try_into().map(u64::from_le_bytes).or(Err(InvalidInstruction))?;
+                Self::ProcessUpdate(ProcessUpdate{interest})
             }
 
             _ => return Err(TokenError::InvalidInstruction.into()),
